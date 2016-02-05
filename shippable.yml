@@ -4,7 +4,7 @@ language: node_js
 # Version number
 node_js:
   - 0.12
-  - 0.6
+ # - 0.6
   - 0.8
   - 5
   - 0.10.25
@@ -13,23 +13,17 @@ node_js:
 env:
   global:
     - FOO=FUBU
-    - E2=ETWO
-    - M1=ONE
-    - M2=TWO
     
   matrix:
     include:
-      - node_js: 0.6
-        env: 
-          - M1=ONE
-          - M2=TWO
+      - node_js: 4.2.0
           
     exclude:
       - node_js: 0.8
       
     allow_failures:
       - node_js: 0.12
-        ci: if [ "$SHIPPABLE_NODE_VERSION" == "0.12" ]; then foobar; fi
+        
 
 build:
   pre_ci:
@@ -44,6 +38,10 @@ build:
   ci:
     - ps -eax
     - ls -al
+    - source ~/.nvm/nvm.sh && nvm install $SHIPPABLE_NODE_VERSION
+    - npm install
+    - node --version
+    - if [ "$SHIPPABLE_NODE_VERSION" == "0.12" ]; then foobar; fi
 
   post_ci:
     - docker push shippabledocker/shiphitchcock1_sample_node_matrix_bb
