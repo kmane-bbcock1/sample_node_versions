@@ -8,11 +8,22 @@ node_js:
 env:
   global:
     - FOO=FUBU
+    - E2=ETWO
+    - M1=ONE
+    - M2=TWO
 
   matrix:
     include:
+      - node_js: 0.6
+        env: 
+          - M1=ONE
+          - M2=TWO
+    exclude:
+      - node_js: 0.8
+      
+    allow_failures:
       - node_js: 0.12
-        env: M1=ONE
+        ci: if [ "$SHIPPABLE_NODE_VERSION" == "0.12" ]; then foobar; fi
 
 build:
 
