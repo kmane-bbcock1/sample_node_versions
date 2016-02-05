@@ -16,20 +16,17 @@ node_js:
 env:
   global:
     - FOO=FUBU
-    - E2=ETWO
-    - M1=ONE
-    - M2=TWO
+
 
   matrix:
     include:
       - node_js: 0.6
+      
     exclude:
       - node_js: 0.8
       
     allow_failures:
-      - node_js: 0.12
-        ci: if [ "$SHIPPABLE_NODE_VERSION" == "0.12" ]; then foobar; fi
-
+      - node_js: 0.12  
 
 build:
  # pre_ci:
@@ -44,6 +41,7 @@ build:
   ci:
     - ps -eax
     - ls -al
+    - if [ "$SHIPPABLE_NODE_VERSION" == "0.12" ]; then foobar; fi
 
   post_ci:
     - docker push shippabledocker/shiphitchcock1_sample_node2_bb
